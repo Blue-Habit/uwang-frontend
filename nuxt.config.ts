@@ -18,13 +18,22 @@ export default defineNuxtConfig({
     }
   },
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
-  pinia: {
-    autoImports: [
-      // automatically imports `defineStore`
-      'defineStore', // import { defineStore } from 'pinia'
-      // ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-      "acceptHMRUpdate"
-    ],
-  },
   devtools: { enabled: true },
+  imports:{
+    dirs:["common","store"]
+  },
+  nitro:{
+    routeRules:{
+      "/api/**":{
+        proxy:`${import.meta.env.API_BASE_URL}/**`
+      }
+    },
+    devProxy:{
+      "/api/**":{
+        target:"https://dev-uwang.bluhabit.id/api/**",
+        changeOrigin:true,
+        prependPath:true
+      }
+    }
+  }
 })
