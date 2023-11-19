@@ -43,7 +43,7 @@ jobs:
           docker login https://registry.bluhabit.id -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build image
-        run: docker build -t registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}} . -f staging.Dockerfile --no-cache
+        run: docker build -t registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}} . -f ./dockerfile/staging.Dockerfile --no-cache
 
       - name: Push
         run: docker push registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}}
@@ -69,7 +69,7 @@ jobs:
           password: ${{secrets.SSH_PASSWORD}}
           port: ${{secrets.SSH_PORT}}
           script: |
-              cd uwang-fe/stage
+              cd vps-config/application/uwang-fe/stage
               docker stop uwang-fe-staging
               docker rm uwang-fe-staging
               docker pull registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}}
