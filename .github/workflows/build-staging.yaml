@@ -43,10 +43,10 @@ jobs:
           docker login https://registry.bluhabit.id -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build image
-        run: docker build -t registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}} . -f ./dockerfile/staging.Dockerfile --no-cache
+        run: docker build -t registry.bluhabit.id/uwang-fe:staging-${{env.RELEASE_VERSION}} . -f ./dockerfile/staging.Dockerfile --no-cache
 
       - name: Push
-        run: docker push registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}}
+        run: docker push registry.bluhabit.id/uwang-fe:staging-${{env.RELEASE_VERSION}}
       # Pushing release tag only if everything before passed
       - name: Push Release Tag
         run: git push origin ${{env.RELEASE_VERSION}}
@@ -72,5 +72,5 @@ jobs:
               cd vps-config/application/uwang-fe/stage
               docker stop uwang-fe-staging
               docker rm uwang-fe-staging
-              docker pull registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}}
-              docker run --env-file .env -v ./data:/data:rw --network app-net --name uwang-fe-staging -p 7002:3000 -d registry.bluhabit.id/uwang-fe-staging:${{env.RELEASE_VERSION}}
+              docker pull registry.bluhabit.id/uwang-fe:staging-${{env.RELEASE_VERSION}}
+              docker run --env-file .env -v ./data:/data:rw --network app-net --name uwang-fe-staging -p 7002:3000 -d registry.bluhabit.id/uwang-fe:staging-${{env.RELEASE_VERSION}}
